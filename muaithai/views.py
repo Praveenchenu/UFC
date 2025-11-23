@@ -52,8 +52,9 @@ def fighterCards_view(request):
 class CreateFighter_view(CreateView):
     model = Fighter_Details
     fields = ['Name', 'Weight_class', 'Age', 'Prof_record', 'Image', 'p4p_rank']
-    success_url = reverse_lazy('readfighter')
+    template_name = 'muaithai/fighter_register_form.html'
     context_object_name = 'form'
+    success_url = reverse_lazy('readfighter')
 
 
 # def ReadFighter_view(request):
@@ -83,7 +84,7 @@ class ReadFighter_view(ListView):
     model = Fighter_Details
     template_name = 'muaithai/fighterInfoTable.html'
     context_object_name = 'fighterTable'
-    paginate_by = 6   # optional: adds pagination automatically
+    paginate_by = 6   
 
     def get_queryset(self):
         # base queryset
@@ -133,8 +134,9 @@ class fighterDetailsView(DetailView):
 class UpdateFighter_view(UpdateView):
     model = Fighter_Details
     fields = ['Name', 'Weight_class', 'Age', 'Prof_record', 'Image', 'p4p_rank']
-    template_name_suffix = '_form'
-    context_object_name = 'form'
+    # template_name_suffix = '_form'
+    template_name = 'muaithai/fighter_register_form.html'
+    context_object_name = 'fighter'
     success_url = reverse_lazy('readfighter')
 
 

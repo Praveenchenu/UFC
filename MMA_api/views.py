@@ -11,3 +11,5 @@ class Fighters_CRUD_api_View(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['Name', 'Weight_class', 'Age', 'p4p_rank']
     ordering_fields = ['Weight_class']
+
+
