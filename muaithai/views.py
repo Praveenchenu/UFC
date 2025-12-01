@@ -208,7 +208,7 @@ def search_view(request):
 
 # OpenRouter endpoint
 client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
+    base_url=settings.OPENAI_BASE_URL,
     api_key=settings.OPENAI_API_KEY
 )
 
