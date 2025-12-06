@@ -7,7 +7,7 @@ class Fighter_Details(models.Model):
     Name = models.CharField(max_length = 48)
     Weight_class = models.CharField(max_length = 48)
     Age = models.PositiveSmallIntegerField(default=18)
-    Prof_record = models.CharField(max_length=50,default=0)
+    Prof_record = models.CharField(max_length=50,default="0")
     p4p_rank = models.IntegerField(default=99, null = True)
     Image = models.ImageField(upload_to='fighters/', blank=True, null=True)
     # created_at = models.DateField(default=timezone.now)
@@ -25,6 +25,9 @@ class Carousel(models.Model):
     title = models.CharField(max_length = 90)
     description = models.CharField(max_length = 240)
     image = models.ImageField(upload_to='fighters/', blank= True, null= True) 
+
+
+
 
 
 

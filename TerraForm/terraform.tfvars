@@ -1,0 +1,13 @@
+aws_region              = "us-east-1"
+vpc_cidr                = "10.0.0.0/16"
+vpc_name                = "vpc-01"
+subnet_cidr             = "10.0.1.0/24"
+availability_zone       = "us-east-1a"
+subnet_name             = "subnet_01"
+allowed_admin_cidr      = "223.196.193.12/32" # IMPORTANT: replace with your current office/home IP CIDR
+ami_id                  = "ami-0ecb62995f68bb549"
+jenkins_instance_type   = "t2.micro"
+jenkins_instance_name   = "Jenkins-Server"
+sonar_instance_type     = "t3.medium"
+sonarqube_instance_name = "Sonarqube-Server"
+key_name                = "terraform_key"

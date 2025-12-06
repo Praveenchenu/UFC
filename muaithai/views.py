@@ -209,7 +209,7 @@ def search_view(request):
 # OpenRouter endpoint
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=settings.OPENAI_API_KEY
+    api_key=settings.RAPIDAPI_KEY
 )
 
 def chatbot_page(request):
