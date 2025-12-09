@@ -1,22 +1,35 @@
-FROM python:3.13.5-slim
+# Use an official lightweight Python image
+FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Prevent Python from writing .pyc files and buffering stdout/stderr
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
-# Set work directory
 WORKDIR /app
 
-# Install dependencies
-COPY requirements.txt /app/
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# system deps required to build some python packages and to run libpq
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+     build-essential \
+     gcc \
+     libpq-dev \
+     curl \
+  && rm -rf /var/lib/apt/lists/*
+
+# Copy and install python dependencies
+COPY requirements.txt .
+RUN pip install --upgrade pip \
+  && pip install --no-cache-dir -r requirements.txt
 
 # Copy project
-COPY . /app/
+COPY . .
 
-# Expose port
+# Collect static files (ensure settings.py uses env var to toggle)
+# (This is optional here — you can also run collectstatic as part of your CI/CD)
+# RUN python manage.py collectstatic --noinput
+
+# Expose port used by Gunicorn/Django
 EXPOSE 8000
 
-# Run Django server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Use gunicorn to serve the app (adjust module path if your wsgi module differs)
+CMD ["gunicorn", "martialarts.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
