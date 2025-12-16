@@ -14,10 +14,6 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
 
 
-#AI imports
-from django.http import JsonResponse
-from openai import OpenAI
-from django.conf import settings
 
 
 # @cache_page(60 * 10)
@@ -206,48 +202,7 @@ def search_view(request):
     return render(request, "muaithai/fighter_cards.html", context)
 
 
-# OpenRouter endpoint
-client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=settings.RAPIDAPI_KEY
-)
 
 def chatbot_page(request):
     return render(request, "muaithai/chatbot.html")
 
-def chatbot_response(request):
-    user_message = request.GET.get("message", "")
-
-    if not user_message:
-        return JsonResponse({"error": "No message provided"}, status=400)
-
-    try:
-        # ✅ Works same as OpenAI
-        response = client.chat.completions.create(
-            # model="gpt-3.5-turbo",  # or try "mistralai/mistral-7b-instruct" (free model)
-            model="mistralai/mistral-7b-instruct",
-            messages=[
-
-                # {"role": "system", "content": "You are a friendly UFC assistant."},
-
-                {"role": "system", "content": """
-                You are a UFC fighters info providing assistant who:
-                - Always replies with short, factual summaries.
-                - Uses emojis to make responses friendly.
-                - If you don't know something, politely say you're unsure, and reply something related info.
-                - Include fighter stats only if available in the provided context.
-                - Use casual fight fan language.
-                - “You teach new fans about UFC rules and divisions in a simple and educational tone.”
-                """},
-
-
-                {"role": "user", "content": user_message}
-            ]
-        )
-
-        bot_reply = response.choices[0].message.content
-        return JsonResponse({"reply": bot_reply})
-
-    except Exception as e:
-        print("Chatbot error:", e)
-        return JsonResponse({"error": str(e)}, status=500)
