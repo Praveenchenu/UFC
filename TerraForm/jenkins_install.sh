@@ -6,9 +6,9 @@ echo "Starting system update..."
 sudo apt update -y
 
 # 2. Install Java 17 (required for modern Jenkins versions)
-echo "Installing Java 17 (OpenJDK)..."
+echo "Installing Java 21 (OpenJDK)..."
 # The 'default-jdk' package usually points to the latest supported version, but specifying 17 is safer.
-sudo apt install -y openjdk-17-jdk
+sudo apt install -y openjdk-21-jdk
 
 # 3. Install Jenkins Repository and Key
 echo "Setting up Jenkins repository..."
@@ -54,3 +54,23 @@ wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dear
 echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
 sudo apt-get update -y
 sudo apt-get install trivy -y
+
+# Install Docker
+# Add Docker's official GPG key:
+sudo apt-get update -y
+sudo apt-get install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+# timeout 60 
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update -y
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+sudo usermod -aG docker ubuntu
+sudo chmod 777 /var/run/docker.sock
+# sudo newgrp docker
+docker --version
