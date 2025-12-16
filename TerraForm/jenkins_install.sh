@@ -47,3 +47,10 @@ echo "Here is the Initial Admin Password:"
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 echo "------------------------------------------------------------------"
 echo "Remember to open port 8080 in your firewall (e.g., using 'sudo ufw allow 8080')."
+
+# Install Trivy
+sudo apt-get install -y wget apt-transport-https gnupg
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+sudo apt-get update -y
+sudo apt-get install trivy -y
