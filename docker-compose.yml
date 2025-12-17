@@ -10,12 +10,12 @@ services:
     env_file:
       - .env
     environment:
-      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
+      DJANGO_SECRET_KEY: replace-me
+      DB_NAME: sampledb 
+      DB_USER: postgres
+      DB_PASSWORD: 00001234
+      DB_HOST: db
+      DB_PORT: 5432
       DEBUG: ${DEBUG:-0}
     depends_on:
       - db
@@ -29,9 +29,9 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: sampledb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 00001234
     ports:
       - "5432:5432"
     volumes:
