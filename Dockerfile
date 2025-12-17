@@ -1,4 +1,3 @@
-# Use an official lightweight Python image
 FROM python:3.11-slim
 
 # Prevent Python from writing .pyc files and buffering stdout/stderr
