@@ -33,9 +33,9 @@ OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1")
 SECRET_KEY = 'django-insecure-451^mmveu+^a6(%1tim$e6mxjm^5l)-@^$r!9b*tr)+&a*f!_*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["127.0.0.1", localhost, "vm-public-ip"]
 
 
 # Application definition
